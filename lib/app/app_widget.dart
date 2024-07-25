@@ -6,9 +6,12 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Todo List Modular',
-      home: SplashPage(),
+      home: const SplashPage(),
+      theme: ThemeData(
+        useMaterial3: false,
+      ),
     );
   }
 }
