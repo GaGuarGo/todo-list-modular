@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list_modular/app/core/notifier/default_listener_notifier.dart';
 import 'package:todo_list_modular/app/core/ui/theme_extensions.dart';
 import 'package:todo_list_modular/app/core/validators/validators.dart';
 import 'package:todo_list_modular/app/core/widget/todo_list_field.dart';
 import 'package:todo_list_modular/app/core/widget/todo_list_logo.dart';
-import 'package:todo_list_modular/app/core/widget/todo_list_snackbar.dart';
 import 'package:todo_list_modular/app/modules/auth/register/register_controller.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -35,15 +35,15 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RegisterController>().addListener(() {
-      var success = context.read<RegisterController>().success;
-      var error = context.read<RegisterController>().error;
-      if (success) {
+    var defaultListener = DefaultListenerNotifier(
+        changeNotifier: context.read<RegisterController>());
+    defaultListener.listener(
+      context: context,
+      successVoidCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
         Navigator.of(context).pop();
-      } else if (error != null && error.isNotEmpty) {
-        TodoListSnackbar(context: context).showFail(message: error);
-      }
-    });
+      },
+    );
   }
 
   @override
