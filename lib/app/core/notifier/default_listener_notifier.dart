@@ -11,9 +11,14 @@ class DefaultListenerNotifier {
   void listener({
     required BuildContext context,
     required SuccessVoidCallback successVoidCallback,
+    SuccessVoidCallback? everVoidCallback,
     ErrorVoidCallback? errorVoidCallback,
   }) {
     changeNotifier.addListener(() {
+      if (everVoidCallback != null) {
+        everVoidCallback(changeNotifier, this);
+      }
+
       if (changeNotifier.loading) {
         Loader.show(context);
       } else {
