@@ -3,6 +3,8 @@ import 'package:todo_list_modular/app/core/ui/theme_extensions.dart';
 import 'package:todo_list_modular/app/modules/home/widgets/home_drawer.dart';
 import 'package:todo_list_modular/app/modules/home/widgets/home_filters.dart';
 import 'package:todo_list_modular/app/modules/home/widgets/home_header.dart';
+import 'package:todo_list_modular/app/modules/home/widgets/home_tasks.dart';
+import 'package:todo_list_modular/app/modules/home/widgets/home_week_filter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(color: context.primaryColor),
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color(0xFFFAFBFE),
         actions: [
           PopupMenuButton(
             icon: const Icon(Icons.filter_alt),
@@ -25,6 +27,12 @@ class HomePage extends StatelessWidget {
             },
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        onPressed: () {},
+        backgroundColor: context.primaryColor,
+        child: const Icon(Icons.add),
       ),
       backgroundColor: const Color(0xFFFAFBFE),
       drawer: HomeDrawer(),
@@ -42,8 +50,10 @@ class HomePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                     HomeHeader(),
-                     HomeFilters(),
+                      HomeHeader(),
+                      HomeFilters(),
+                      HomeWeekFilter(),
+                      HomeTasks(),
                     ],
                   ),
                 ),
