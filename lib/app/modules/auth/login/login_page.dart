@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_modular/app/core/notifier/default_listener_notifier.dart';
 import 'package:todo_list_modular/app/core/widget/todo_list_field.dart';
 import 'package:todo_list_modular/app/core/widget/todo_list_logo.dart';
+import 'package:todo_list_modular/app/modules/auth/login/login_controller.dart';
+import 'package:validatorless/validatorless.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    DefaultListenerNotifier(changeNotifier: context.read<LoginController>())
+        .listener(
+      context: context,
+      successVoidCallback: (notifier, listenerInstance) {
+    
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +56,25 @@ class LoginPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 40, vertical: 20),
                       child: Form(
+                        key: _formKey,
                         child: Column(
                           children: [
                             TodoListField(
+                              controller: _emailEC,
                               label: 'E-mail',
+                              validator: Validatorless.multiple([
+                                Validatorless.required('E-mail é obrigatório'),
+                                Validatorless.email('E-mail inválido'),
+                              ]),
                             ),
                             const SizedBox(height: 20),
                             TodoListField(
+                              validator: Validatorless.multiple([
+                                Validatorless.required('Senha é obrigatório'),
+                                Validatorless.min(6,
+                                    'Senha deve conter no mínimo 6 caracteres'),
+                              ]),
+                              controller: _passwordEC,
                               label: 'Senha',
                               obscureText: true,
                             ),
@@ -49,7 +87,13 @@ class LoginPage extends StatelessWidget {
                                   child: const Text('Esqueceu sua senha?'),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      context.read<LoginController>().login(
+                                          _emailEC.text, _passwordEC.text);
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -95,7 +139,8 @@ class LoginPage extends StatelessWidget {
                                 const Text("Não tem Conta?"),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed('/register');
+                                    Navigator.of(context)
+                                        .pushNamed('/register');
                                   },
                                   child: const Text('Cadastra-se'),
                                 )
