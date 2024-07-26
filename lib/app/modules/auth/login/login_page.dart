@@ -150,7 +150,9 @@ class _LoginPageState extends State<LoginPage> {
                               shape: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(30)),
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<LoginController>().googleLogin();
+                              },
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

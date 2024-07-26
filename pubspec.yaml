@@ -45,6 +45,7 @@ dependencies:
   validatorless: ^1.2.3
   another_flushbar: ^1.12.30
   flutter_overlay_loader: ^2.0.0
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
