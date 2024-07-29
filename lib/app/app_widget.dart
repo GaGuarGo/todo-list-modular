@@ -6,6 +6,7 @@ import 'package:todo_list_modular/app/modules/auth/auth_module.dart';
 import 'package:todo_list_modular/app/modules/home/home_module.dart';
 import 'package:todo_list_modular/app/modules/splash/splash_page.dart';
 import 'package:todo_list_modular/app/modules/tasks/tasks_module.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -32,15 +33,22 @@ class _AppWidgetState extends State<AppWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo List Modular',
-      navigatorKey: TodoListNavigator.navigatorKey,
-      routes: {
-        ...AuthModule().routers,
-        ...HomeModule().routers,
-        ...TasksModule().routers,
-      },
-      home: const SplashPage(),
-      theme: TodoListUiConfig.theme
-    );
+        title: 'Todo List Modular',
+        navigatorKey: TodoListNavigator.navigatorKey,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('pt', 'BR')
+        ],
+        routes: {
+          ...AuthModule().routers,
+          ...HomeModule().routers,
+          ...TasksModule().routers,
+        },
+        home: const SplashPage(),
+        theme: TodoListUiConfig.theme);
   }
 }
