@@ -5,15 +5,20 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_list_modular/app/core/database/sqlite_connection_factory.dart';
 import 'package:todo_list_modular/app/exception/auth_exception.dart';
 
 import './user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
   FirebaseAuth _firebaseAuth;
+  SqliteConnectionFactory _sqliteConnectionFactory;
 
-  UserRepositoryImpl({required FirebaseAuth firebaseAuth})
-      : _firebaseAuth = firebaseAuth;
+  UserRepositoryImpl(
+      {required FirebaseAuth firebaseAuth,
+      required SqliteConnectionFactory sqliteConnectionFactory})
+      : _firebaseAuth = firebaseAuth,
+        _sqliteConnectionFactory = sqliteConnectionFactory;
 
   @override
   Future<User?> register(String email, String password) async {
@@ -118,6 +123,9 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<void> logout() async {
+    final conn = await _sqliteConnectionFactory.openConnection();
+    await conn.rawDelete('delete from todo');
+
     await GoogleSignIn().signOut();
     _firebaseAuth.signOut();
   }
