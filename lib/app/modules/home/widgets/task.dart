@@ -17,28 +17,44 @@ class Task extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Colors.grey)],
       ),
       child: IntrinsicHeight(
-        child: CheckboxListTile(
-          contentPadding: const EdgeInsets.all(8),
-          value: task.finished,
-          onChanged: (value) =>
-              context.read<HomeController>().checkOrUncheckTask(task),
-          title: Text(
-            task.description,
-            style: TextStyle(
-                decoration: task.finished
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none),
-          ),
-          subtitle: Text(
-            task.formattedDate,
-            style: TextStyle(
-                decoration: task.finished
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none),
-          ),
-          shape: RoundedRectangleBorder(
+        child: Dismissible(
+          key: const Key(''),
+          background: Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              color: Colors.red,
               borderRadius: BorderRadius.circular(20),
-              side: const BorderSide(width: 1)),
+              border: Border.all(width: 1, color: Colors.transparent),
+            ),
+            child: const Icon(Icons.delete, color: Colors.white,),
+          ),
+          onDismissed: (direction) {
+            context.read<HomeController>().deleteTask(task);
+          },
+          child: CheckboxListTile(
+            contentPadding: const EdgeInsets.all(8),
+            value: task.finished,
+            onChanged: (value) =>
+                context.read<HomeController>().checkOrUncheckTask(task),
+            title: Text(
+              task.description,
+              style: TextStyle(
+                  decoration: task.finished
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none),
+            ),
+            subtitle: Text(
+              task.formattedDate,
+              style: TextStyle(
+                  decoration: task.finished
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(width: 1, color: Colors.transparent)),
+          ),
         ),
       ),
     );
