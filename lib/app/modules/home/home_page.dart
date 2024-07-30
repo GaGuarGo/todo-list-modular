@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_modular/app/core/notifier/default_listener_notifier.dart';
 import 'package:todo_list_modular/app/core/ui/theme_extensions.dart';
+import 'package:todo_list_modular/app/models/task_filter_enum.dart';
 import 'package:todo_list_modular/app/modules/home/home_controller.dart';
 import 'package:todo_list_modular/app/modules/home/widgets/home_drawer.dart';
 import 'package:todo_list_modular/app/modules/home/widgets/home_filters.dart';
@@ -18,8 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _goToCreateTask(BuildContext context) {
-    Navigator.of(context).push(
+  void _goToCreateTask(BuildContext context) async {
+    await Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 400),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -36,12 +38,22 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+    widget._homeController.refreshPage();
   }
 
   @override
   void initState() {
     super.initState();
-    widget._homeController.loadTotalTasks();
+    DefaultListenerNotifier(changeNotifier: widget._homeController).listener(
+      context: context,
+      successVoidCallback: (notifier, listenerInstance) {
+        listenerInstance.dispose();
+      },
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget._homeController.loadTotalTasks();
+      widget._homeController.findTasks(filter: TaskFilterEnum.today);
+    });
   }
 
   @override

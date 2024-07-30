@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_modular/app/models/task_model.dart';
 
 class Task extends StatelessWidget {
-  const Task({super.key});
+  final TaskModel task;
+  const Task({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +17,21 @@ class Task extends StatelessWidget {
       child: IntrinsicHeight(
         child: CheckboxListTile(
           contentPadding: const EdgeInsets.all(8),
-          value: true,
+          value: task.finished,
           onChanged: (value) {},
-          title: const Text(
-            "Descrição da TASK",
-            style: TextStyle(decoration: TextDecoration.lineThrough),
+          title: Text(
+            task.description,
+            style: TextStyle(
+                decoration: task.finished
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none),
           ),
-          subtitle: const Text(
-            "20/07/2024",
-            style: TextStyle(decoration: TextDecoration.lineThrough),
+          subtitle: Text(
+            task.formattedDate,
+            style: TextStyle(
+                decoration: task.finished
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none),
           ),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),

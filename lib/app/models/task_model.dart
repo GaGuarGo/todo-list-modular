@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TaskModel {
   final int id;
   final String description;
@@ -18,4 +20,6 @@ class TaskModel {
       finished: task['finalizado'] == 1,
     );
   }
+
+  String get formattedDate => DateFormat('dd/MM/yyyy').format(dateTime);
 }
