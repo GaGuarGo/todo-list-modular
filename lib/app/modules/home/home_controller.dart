@@ -71,9 +71,13 @@ class HomeController extends DefaultChangeNotifier {
     allTasks = tasks;
 
     if (filter == TaskFilterEnum.week) {
-      if (initialDayWeek != null) {
+      if (selectedDate != null) {
+        filterByDay(selectedDate!);
+      } else if (initialDayWeek != null) {
         filterByDay(initialDayWeek!);
       }
+    } else {
+      selectedDate = null;
     }
 
     hideLoading();
