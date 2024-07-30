@@ -1,16 +1,17 @@
-# todo_list_modular
+# APLICATIVO DE LISTA DE TAREFAS 
+Simples sistema de lista de tarefas com autenticação de usuário e armazenamento local e uso de filtros de busca.
 
-A new Flutter project.
+## Estrutura do Projeto:
+- Arquitetura MVVM orientada a Módulos.
+- Gerênciamento de Estado com Provider.
+- Uso de Armazenamento Local com SQFlite
+- Uso do Firebase Para gerir os recursos de autenticação.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Como Rodar?
+1. Crie seu Projeto no Firebase.
+2. Instale o CLI do firebase(npm): </br>
+ --dart pub global activate flutterfire_cli
+3. Configure o projeto(dentro do diretório Raiz): </br>
+ --flutterfire configure
+4. Logue na sua conta que contém o projeto.
+5. No terminal escolha o projeto criado e as plataformas que deseja utilizar.
