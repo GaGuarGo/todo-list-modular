@@ -14,6 +14,9 @@ class HomeController extends DefaultChangeNotifier {
   List<TaskModel> allTasks = [];
   List<TaskModel> filteredTasks = [];
 
+  DateTime? initialDayWeek;
+  DateTime? selectedDate;
+
   HomeController({required TasksService taskService})
       : _tasksService = taskService;
 
@@ -60,12 +63,30 @@ class HomeController extends DefaultChangeNotifier {
       case TaskFilterEnum.week:
         final weekModel = await _tasksService.getWeek();
         tasks = weekModel.tasks;
+        initialDayWeek = weekModel.startDate;
         break;
     }
 
     filteredTasks = tasks;
     allTasks = tasks;
+
+    if (filter == TaskFilterEnum.week) {
+      if (initialDayWeek != null) {
+        filterByDay(initialDayWeek!);
+      }
+    }
+
     hideLoading();
+    notifyListeners();
+  }
+
+  void filterByDay(DateTime date) {
+    selectedDate = date;
+
+    filteredTasks = allTasks.where((task) {
+      return task.dateTime == selectedDate;
+    }).toList();
+
     notifyListeners();
   }
 
