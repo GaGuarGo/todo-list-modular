@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_modular/app/models/task_model.dart';
+import 'package:todo_list_modular/app/modules/home/home_controller.dart';
 
 class Task extends StatelessWidget {
   final TaskModel task;
@@ -18,7 +20,8 @@ class Task extends StatelessWidget {
         child: CheckboxListTile(
           contentPadding: const EdgeInsets.all(8),
           value: task.finished,
-          onChanged: (value) {},
+          onChanged: (value) =>
+              context.read<HomeController>().checkOrUncheckTask(task),
           title: Text(
             task.description,
             style: TextStyle(
